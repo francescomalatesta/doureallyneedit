@@ -77,13 +77,12 @@ $("yes").onclick = async () => {
   location.replace(target);
 };
 
+// "No" at any step ends the flow immediately and leaves the site.
+// replace() keeps the gate out of history, so "back" can't reopen it.
 $("no").onclick = async () => {
+  $("no").disabled = $("yes").disabled = true;
   await bump("avoided");
-  if (history.length > 1) history.back();
-  else {
-    const tab = await chrome.tabs.getCurrent();
-    chrome.tabs.remove(tab.id);
-  }
+  location.replace("https://www.google.com");
 };
 
 init();
