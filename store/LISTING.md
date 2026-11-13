@@ -113,7 +113,6 @@ https://github.com/francescomalatesta/doureallyneedit/blob/main/PRIVACY.md
 
 ```
 No account or setup needed.
-No account or setup needed.
 1. Install and then and open https://www.instagram.com (on the default list).
 2. A confirmation page appears instead. Click "Yes, I need it", type at least three words in the "why?" box and click "Yes, let me in": YouTube opens and stays unlocked in that tab for 15 minutes.
 3. Open Instagram in a new tab and click "No, never mind": you are taken to google.com.
