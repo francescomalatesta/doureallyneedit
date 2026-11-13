@@ -125,8 +125,8 @@ async function onYes() {
   if (step < settings.confirmations) return render();
 
   $("yes").disabled = $("no").disabled = true;
-  // The background stores the unlock for the whole domain (every tab) and re-locks it when time is up.
-  await chrome.runtime.sendMessage({ type: "unlock", domain });
+  // Unlock the whole domain (every tab); the background re-locks open tabs when time is up.
+  await unlockDomain(domain, settings.allowMinutes);
   await bump("entered");
   location.replace(target);
 }

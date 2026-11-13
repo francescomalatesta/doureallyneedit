@@ -64,6 +64,19 @@ function matchDomain(hostname, domains) {
   return domains.find(d => h === d || h.endsWith("." + d)) || null;
 }
 
+// Unlock a domain for every tab until `minutes` from now.
+// Callable from both the gate page and the background: storage and alarms are shared,
+// and the background reacts to the alarms (re-lock) and to storage changes (badge).
+const UNLOCK_PREFIX = "unlock:";
+const BADGE_TICK = "badge-tick";
+
+async function unlockDomain(domain, minutes) {
+  const until = Date.now() + minutes * 60 * 1000;
+  await chrome.storage.session.set({ [UNLOCK_PREFIX + domain]: until });
+  await chrome.alarms.create(UNLOCK_PREFIX + domain, { when: until });
+  await chrome.alarms.create(BADGE_TICK, { periodInMinutes: 1 });
+}
+
 function shuffle(list) {
   const a = [...list];
   for (let i = a.length - 1; i > 0; i--) {

@@ -1,11 +1,11 @@
 importScripts("common.js");
 
-// Unlocks are per domain and shared by every tab:
+// Unlocks are per domain and shared by every tab (see unlockDomain() in common.js):
 //   chrome.storage.session  "unlock:<domain>" -> expiry timestamp (ms)
 //   chrome.alarms           "unlock:<domain>" fires at expiry and re-locks open tabs
 //   chrome.alarms           "badge-tick" refreshes the minutes-left badge while anything is unlocked
-const UNLOCK = "unlock:";
-const TICK = "badge-tick";
+const UNLOCK = UNLOCK_PREFIX;
+const TICK = BADGE_TICK;
 
 chrome.action.onClicked.addListener(() => chrome.runtime.openOptionsPage());
 chrome.action.setBadgeBackgroundColor({ color: "#4F7A65" });
@@ -30,15 +30,6 @@ async function getUnlocks() {
   }
   if (stale.length) await chrome.storage.session.remove(stale);
   return unlocks;
-}
-
-async function unlock(domain) {
-  const { allowMinutes: minutes } = await getSettings();
-  const until = Date.now() + minutes * 60 * 1000;
-  await chrome.storage.session.set({ [UNLOCK + domain]: until });
-  await chrome.alarms.create(UNLOCK + domain, { when: until });
-  await chrome.alarms.create(TICK, { periodInMinutes: 1 });
-  await refreshBadges();
 }
 
 // Time's up: forget the unlock and send every open tab on that domain back to the gate.
@@ -81,12 +72,9 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
   chrome.tabs.update(details.tabId, { url: gateUrl(details.url, domain, false) });
 });
 
-// The gate asks for an unlock once the user has confirmed every step.
-chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-  if (msg && msg.type === "unlock" && typeof msg.domain === "string" && sender.id === chrome.runtime.id) {
-    unlock(msg.domain).then(() => sendResponse({ ok: true }));
-    return true; // async response
-  }
+// The gate writes the unlock itself; refresh badges whenever unlocks change.
+chrome.storage.onChanged.addListener((changes, area) => {
+  if (area === "session" && Object.keys(changes).some(k => k.startsWith(UNLOCK))) refreshBadges();
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
