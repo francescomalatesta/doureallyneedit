@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hold on…</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="card">
+    <div class="steps" id="steps"></div>
+    <h1 id="question"></h1>
+    <p id="sub"></p>
+    <div id="reasonBox" hidden>
+      <textarea id="reason" placeholder="What exactly do you need to do there?"></textarea>
+      <div class="muted">Write at least a few words.</div>
+    </div>
+    <div class="actions">
+      <button class="secondary" id="no">No, never mind</button>
+      <button class="primary" id="yes">Yes, I need it</button>
+    </div>
+    <p class="muted" id="stats"></p>
+  </div>
+  <script src="common.js"></script>
+  <script src="gate.js"></script>
+</body>
+</html>

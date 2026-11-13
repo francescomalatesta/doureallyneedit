@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>doureallyneedit – Settings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="card">
+    <h1>doureallyneedit</h1>
+    <p>The sites you want to think twice about before opening.</p>
+
+    <label for="domains">Domains (one per line)</label>
+    <textarea id="domains" rows="8" placeholder="youtube.com&#10;reddit.com"></textarea>
+    <div class="muted">Subdomains are included automatically (e.g. <code>reddit.com</code> also covers <code>old.reddit.com</code>).</div>
+
+    <div class="row">
+      <div>
+        <label for="confirmations">Confirmations required</label>
+        <input type="number" id="confirmations" min="1" max="4">
+      </div>
+      <div>
+        <label for="waitSeconds">Final wait (seconds)</label>
+        <input type="number" id="waitSeconds" min="0" max="60">
+      </div>
+    </div>
+
+    <label for="allowMinutes">After confirming, unlock for (minutes)</label>
+    <input type="number" id="allowMinutes" min="1" max="240">
+
+    <label class="check"><input type="checkbox" id="askReason"> Ask me to type a reason</label>
+
+    <div class="actions">
+      <button class="primary" id="save">Save</button>
+    </div>
+    <span class="saved" id="saved" hidden>Saved ✓</span>
+
+    <label>Stats</label>
+    <div id="stats" class="muted">No data yet.</div>
+  </div>
+  <script src="common.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

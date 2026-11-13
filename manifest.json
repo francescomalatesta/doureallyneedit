@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "doureallyneedit",
+  "version": "1.0.0",
+  "description": "Asks whether you REALLY need to open certain websites before letting you in.",
+  "permissions": ["storage", "webNavigation"],
+  "background": { "service_worker": "background.js" },
+  "options_page": "options.html",
+  "action": { "default_title": "doureallyneedit – settings" }
+}
