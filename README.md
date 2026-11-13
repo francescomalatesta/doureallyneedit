@@ -3,6 +3,7 @@
 # doureallyneedit
 
 **A tiny Chrome extension that asks the one question your fingers never do:**
+
 *do you really need to open that site right now?*
 
 [![Latest release](https://img.shields.io/github/v/release/francescomalatesta/doureallyneedit?label=download&color=4F7A65)](../../releases/latest)
