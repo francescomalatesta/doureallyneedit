@@ -2,61 +2,106 @@ const params = new URLSearchParams(location.search);
 const target = params.get("url");
 const domain = params.get("domain");
 
-const QUESTIONS = [
-  ["Do you really need to go to <span class='domain'>{d}</span>?", "Are you going there for a specific reason, or just out of habit?"],
-  ["Sure? What do you need to do on <span class='domain'>{d}</span>?", "If you can't answer in one sentence, you probably don't need it."],
-  ["Last time: is it worth it, right now?", "Take a breath. You can always come back later."],
-  ["Really, really?", "Is there something more important you were doing?"]
-];
+// Per-style copy
+const COPY = {
+  breathe: {
+    no: "No, never mind", yes: "Yes, I need it", last: "Yes, let me in",
+    wait: (s) => `Wait ${s}s…`, reason: "In a few words, why?",
+    stats: (a, e) => `On ${domain}: you walked away ${a} times, went in ${e}.`
+  },
+  terminal: {
+    no: "[ N ] no, never mind", yes: "[ y ] yes, I need it", last: "[ y ] yes, let me in",
+    wait: (s) => `[ y ] wait ${s}s…`, reason: "$ reason --why",
+    stats: (a, e) => `stats: ${domain} · avoided=${a} · entered=${e}`
+  },
+  arcade: {
+    no: "B · NOPE", yes: "A · I NEED IT", last: "A · LET ME IN",
+    wait: (s) => `A · WAIT ${s}`, reason: "STATE YOUR QUEST",
+    stats: () => ""
+  }
+};
 
 let step = 0;
-let settings;
+let settings, copy, questions, timer;
 const $ = (id) => document.getElementById(id);
+const pad6 = (n) => String(n).padStart(6, "0");
 
 async function init() {
   settings = await getSettings();
+  copy = COPY[settings.style];
+  applyTheme(settings.style);
+  questions = shuffle(QUESTIONS).slice(0, settings.confirmations);
+
   const { stats = {} } = await chrome.storage.local.get("stats");
   const s = stats[domain] || { avoided: 0, entered: 0 };
-  if (s.avoided + s.entered > 0)
-    $("stats").textContent = `On ${domain}: you walked away ${s.avoided} times, went in ${s.entered} times.`;
+  $("stats").textContent = s.avoided + s.entered > 0 ? copy.stats(s.avoided, s.entered) : "";
+  $("hudDomain").textContent = domain.toUpperCase();
+  $("hudAvoided").textContent = pad6(s.avoided);
+  $("hudEntered").textContent = pad6(s.entered);
+  $("termUrl").textContent = `open ${target}`;
+  $("reasonLabel").textContent = copy.reason;
+  $("no").textContent = copy.no;
+  if (settings.style === "arcade") makeStars($("stars"), 40);
+
+  document.body.classList.add("ready");
   render();
 }
 
 function render() {
   const n = settings.confirmations;
-  const [q, sub] = QUESTIONS[Math.min(step, QUESTIONS.length - 1)];
-  $("question").innerHTML = q.replace("{d}", domain);
+  const isLast = step === n - 1;
+  const [q, sub] = questions[step];
+
+  $("question").textContent = q.replaceAll("{d}", domain);
   $("sub").textContent = sub;
-  $("steps").innerHTML = Array.from({ length: n }, (_, i) =>
-    `<span class="${i < step ? "done" : ""}"></span>`).join("");
+  replay($("qa"), "enter");
+
+  $("dots").innerHTML = Array.from({ length: n }, (_, i) => `<span class="${i <= step ? "on" : ""}"></span>`).join("");
+  $("termStep").textContent = `${step + 1}/${n}`;
+  $("stage").textContent = `STAGE ${step + 1}-${n}`;
 
   // On the second step (if enabled) ask for a reason
   const showReason = settings.askReason && step === 1 && n > 1;
   $("reasonBox").hidden = !showReason;
-  if (showReason) $("reason").focus();
 
   const yes = $("yes");
-  const isLast = step === n - 1;
   yes.disabled = false;
-  yes.textContent = isLast ? "Yes, let me in" : "Yes, I need it";
+  yes.textContent = isLast ? copy.last : copy.yes;
+  $("arcadeCount").hidden = true;
 
   if (showReason) {
+    $("reason").value = "";
+    $("reason").focus();
     yes.disabled = true;
     $("reason").oninput = () => {
-      yes.disabled = $("reason").value.trim().split(/\s+/).length < 3;
+      yes.disabled = $("reason").value.trim().split(/\s+/).filter(Boolean).length < 3;
     };
   }
 
-  if (isLast && settings.waitSeconds > 0 && !showReason) {
-    let t = settings.waitSeconds;
+  if (isLast && settings.waitSeconds > 0 && !showReason) countdown(settings.waitSeconds);
+}
+
+function countdown(seconds) {
+  const yes = $("yes");
+  let t = seconds;
+  const tick = () => {
     yes.disabled = true;
-    yes.textContent = `Wait ${t}s…`;
-    const iv = setInterval(() => {
-      t--;
-      if (t <= 0) { clearInterval(iv); yes.disabled = false; yes.textContent = "Yes, let me in"; }
-      else yes.textContent = `Wait ${t}s…`;
-    }, 1000);
-  }
+    yes.textContent = copy.wait(t);
+    $("arcadeCount").hidden = false;
+    $("countNum").textContent = t;
+    replay($("countNum"), "tick");
+  };
+  tick();
+  clearInterval(timer);
+  timer = setInterval(() => {
+    t--;
+    if (t <= 0) {
+      clearInterval(timer);
+      yes.disabled = false;
+      yes.textContent = copy.last;
+      $("countNum").textContent = "GO";
+    } else tick();
+  }, 1000);
 }
 
 async function bump(field) {
@@ -66,23 +111,38 @@ async function bump(field) {
   await chrome.storage.local.set({ stats });
 }
 
-$("yes").onclick = async () => {
+async function onYes() {
+  if ($("yes").disabled) return;
   step++;
   if (step < settings.confirmations) return render();
 
+  $("yes").disabled = $("no").disabled = true;
   const tab = await chrome.tabs.getCurrent();
   const until = Date.now() + settings.allowMinutes * 60 * 1000;
   await chrome.storage.session.set({ [`${tab.id}|${domain}`]: until });
   await bump("entered");
   location.replace(target);
-};
+}
 
 // "No" at any step ends the flow immediately and leaves the site.
 // replace() keeps the gate out of history, so "back" can't reopen it.
-$("no").onclick = async () => {
+async function onNo() {
+  if ($("no").disabled) return;
   $("no").disabled = $("yes").disabled = true;
+  clearInterval(timer);
   await bump("avoided");
   location.replace("https://www.google.com");
-};
+}
+
+$("yes").onclick = onYes;
+$("no").onclick = onNo;
+
+// Keyboard: y = yes, n / Escape = no (ignored while typing a reason)
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "TEXTAREA") return;
+  const k = e.key.toLowerCase();
+  if (k === "y") onYes();
+  else if (k === "n" || k === "escape") onNo();
+});
 
 init();

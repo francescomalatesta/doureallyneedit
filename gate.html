@@ -2,24 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Hold on…</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="card">
-    <div class="steps" id="steps"></div>
-    <h1 id="question"></h1>
-    <p id="sub"></p>
-    <div id="reasonBox" hidden>
-      <textarea id="reason" placeholder="What exactly do you need to do there?"></textarea>
-      <div class="muted">Write at least a few words.</div>
+  <main class="screen gate">
+    <!-- Decorations -->
+    <div class="stars" id="stars" data-theme="arcade" aria-hidden="true"></div>
+    <div class="floor" data-theme="arcade" aria-hidden="true"></div>
+    <div class="hud" data-theme="arcade">
+      <div><span class="hud-k">1UP</span><span id="hudDomain"></span></div>
+      <div><span class="hud-k">HI-SCORE · AVOIDED</span><span id="hudAvoided"></span></div>
+      <div><span class="hud-k">ENTERED</span><span id="hudEntered"></span></div>
     </div>
-    <div class="actions">
-      <button class="secondary" id="no">No, never mind</button>
-      <button class="primary" id="yes">Yes, I need it</button>
+    <div class="scanlines" data-theme="terminal" aria-hidden="true"></div>
+    <div class="scanbar" data-theme="terminal" aria-hidden="true"></div>
+
+    <div class="content">
+      <div class="orb" data-theme="breathe" aria-hidden="true">
+        <div class="ring"></div><div class="ring"></div><div class="core"></div>
+        <div class="label"><span class="in">breathe in</span><span class="out">breathe out</span></div>
+      </div>
+      <div class="dots" id="dots" data-theme="breathe" aria-hidden="true"></div>
+
+      <div class="term-head" data-theme="terminal">
+        <div class="dim">you@chrome:~$ <span class="bright" id="termUrl"></span></div>
+        <div class="warn">[doureallyneedit] navigation intercepted · step <span id="termStep"></span></div>
+      </div>
+
+      <div class="stage" id="stage" data-theme="arcade"></div>
+
+      <div class="qa" id="qa" aria-live="polite">
+        <h1 id="question"></h1>
+        <p id="sub"></p>
+      </div>
+
+      <div class="reason-box" id="reasonBox" hidden>
+        <label for="reason" id="reasonLabel"></label>
+        <textarea id="reason" placeholder="What exactly do you need to do there?"></textarea>
+        <div class="hint">Write at least three words.</div>
+      </div>
+
+      <div data-theme="terminal">Continue? [y/N] <span class="cursor" aria-hidden="true"></span></div>
+      <div data-theme="arcade">
+        <div class="arcade-count" id="arcadeCount" hidden>CONTINUE? <span id="countNum"></span></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-no" id="no"></button>
+        <button class="btn btn-yes" id="yes"></button>
+      </div>
+
+      <div class="insert blink" data-theme="arcade">INSERT FOCUS TO CONTINUE</div>
+      <p class="stats" id="stats" data-theme="breathe terminal"></p>
     </div>
-    <p class="muted" id="stats"></p>
-  </div>
+  </main>
   <script src="common.js"></script>
   <script src="gate.js"></script>
 </body>

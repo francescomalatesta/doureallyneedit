@@ -7,12 +7,17 @@ When you navigate to a domain on your list, you land on an interstitial page tha
 ## Features
 
 - Configurable list of domains (subdomains are matched automatically)
-- 1–4 confirmation steps
+- 1–4 confirmation steps, each with a question picked at random from a pool of 30
+- Three visual styles, switchable from the settings:
+  - **Breathe** (default): calm, with a breathing orb
+  - **Terminal**: green phosphor CRT, typed-out prompts, `[y/N]`
+  - **Arcade**: retro game screen with a `CONTINUE?` countdown
+- Keyboard shortcuts on the confirmation page: `y` = yes, `n` / `Esc` = no
 - Optional "type your reason" step
 - Countdown before the final confirmation
 - Temporary unlock per tab (default 15 minutes)
 - Per-domain stats: how many times you walked away vs. went in
-- No network requests, no tracking: everything stays in Chrome storage
+- No network requests, no tracking: everything stays in Chrome storage (fonts are bundled)
 
 ## Quick install (from a release)
 
@@ -31,3 +36,7 @@ A new release is published automatically on every push to `main` (changes to Mar
 4. Click **Load unpacked** and select the repo folder
 
 Click the extension icon to open the settings.
+
+## Credits
+
+Bundled fonts (SIL Open Font License 1.1, see `fonts/`): Fraunces, Inter, JetBrains Mono, Press Start 2P.

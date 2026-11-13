@@ -27,7 +27,7 @@ jobs:
       - name: Build zip
         run: |
           mkdir -p dist/doureallyneedit
-          cp manifest.json *.js *.html *.css dist/doureallyneedit/
+          cp -r manifest.json *.js *.html *.css fonts dist/doureallyneedit/
           cd dist && zip -r "${{ steps.meta.outputs.zip }}" doureallyneedit
 
       - name: Create release

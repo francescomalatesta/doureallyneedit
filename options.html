@@ -2,42 +2,91 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>doureallyneedit – Settings</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="card">
-    <h1>doureallyneedit</h1>
-    <p>The sites you want to think twice about before opening.</p>
-
-    <label for="domains">Domains (one per line)</label>
-    <textarea id="domains" rows="8" placeholder="youtube.com&#10;reddit.com"></textarea>
-    <div class="muted">Subdomains are included automatically (e.g. <code>reddit.com</code> also covers <code>old.reddit.com</code>).</div>
-
-    <div class="row">
-      <div>
-        <label for="confirmations">Confirmations required</label>
-        <input type="number" id="confirmations" min="1" max="4">
-      </div>
-      <div>
-        <label for="waitSeconds">Final wait (seconds)</label>
-        <input type="number" id="waitSeconds" min="0" max="60">
-      </div>
+  <main class="screen opts">
+    <div class="stars" id="stars" data-theme="arcade" aria-hidden="true"></div>
+    <div class="scanlines" data-theme="terminal" aria-hidden="true"></div>
+    <div class="term-bar" data-theme="terminal">
+      <span>~/.config/doureallyneedit.conf</span>
+      <span id="termStatus">NORMAL</span>
     </div>
 
-    <label for="allowMinutes">After confirming, unlock for (minutes)</label>
-    <input type="number" id="allowMinutes" min="1" max="240">
+    <div class="content">
+      <header class="opts-head">
+        <div class="orb-mini" data-theme="breathe" aria-hidden="true"></div>
+        <div>
+          <h1 data-t="title"></h1>
+          <p data-t="subtitle"></p>
+        </div>
+      </header>
 
-    <label class="check"><input type="checkbox" id="askReason"> Ask me to type a reason</label>
+      <div class="opts-grid">
+        <section class="panel">
+          <h2 data-t="sites"></h2>
+          <ul class="domain-list" id="domainList"></ul>
+          <form class="add-form" id="addForm">
+            <label class="sr" for="addInput">Add a site</label>
+            <input id="addInput" type="text" autocomplete="off">
+            <button type="submit" data-t="add"></button>
+          </form>
+          <p class="hint" data-t="subdomains"></p>
+          <h3 data-t="statsTitle"></h3>
+          <div class="stats-list" id="stats"></div>
+        </section>
 
-    <div class="actions">
-      <button class="primary" id="save">Save</button>
+        <section class="panel">
+          <h2 data-t="behavior"></h2>
+
+          <div class="row">
+            <span data-t="style"></span>
+            <div class="seg" id="styleSeg" role="group" aria-label="Style">
+              <button type="button" data-style="breathe">Breathe</button>
+              <button type="button" data-style="terminal">Terminal</button>
+              <button type="button" data-style="arcade">Arcade</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <span data-t="confirmations"></span>
+            <div class="stepper">
+              <button type="button" data-key="confirmations" data-delta="-1" aria-label="Decrease confirmations">−</button>
+              <output id="out-confirmations"></output>
+              <button type="button" data-key="confirmations" data-delta="1" aria-label="Increase confirmations">+</button>
+            </div>
+          </div>
+          <div class="row">
+            <span data-t="waitSeconds"></span>
+            <div class="stepper">
+              <button type="button" data-key="waitSeconds" data-delta="-1" aria-label="Decrease wait">−</button>
+              <output id="out-waitSeconds"></output>
+              <button type="button" data-key="waitSeconds" data-delta="1" aria-label="Increase wait">+</button>
+            </div>
+          </div>
+          <div class="row">
+            <span data-t="allowMinutes"></span>
+            <div class="stepper">
+              <button type="button" data-key="allowMinutes" data-delta="-5" aria-label="Decrease unlock time">−</button>
+              <output id="out-allowMinutes"></output>
+              <button type="button" data-key="allowMinutes" data-delta="5" aria-label="Increase unlock time">+</button>
+            </div>
+          </div>
+          <div class="row">
+            <span data-t="askReason" id="askReasonLabel"></span>
+            <button type="button" class="switch" id="askReason" aria-labelledby="askReasonLabel"></button>
+          </div>
+
+          <div class="save-row">
+            <button type="button" id="save" data-t="save"></button>
+            <span class="saved" id="saved" hidden data-t="saved"></span>
+          </div>
+        </section>
+      </div>
     </div>
-    <span class="saved" id="saved" hidden>Saved ✓</span>
-
-    <label>Stats</label>
-    <div id="stats" class="muted">No data yet.</div>
-  </div>
+  </main>
   <script src="common.js"></script>
   <script src="options.js"></script>
 </body>
