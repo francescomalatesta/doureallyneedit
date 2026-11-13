@@ -1,6 +1,6 @@
 # Privacy Policy — doureallyneedit
 
-_Last updated: November 13, 2026_
+_Last updated: November 13, 2026 (v1.3.0)_
 
 doureallyneedit is a Chrome extension that shows a short confirmation page before you open websites you have chosen to pause on. This policy explains what data the extension handles and what happens to it.
 
@@ -15,7 +15,7 @@ doureallyneedit is a Chrome extension that shows a short confirmation page befor
 |---|---|---|
 | **Your settings**: the list of domains to pause on, number of confirmations, wait time, unlock time, "ask for a reason" option, visual style | To work the way you configured it | `chrome.storage.sync`, which Chrome syncs across your own signed-in Chrome browsers. Google handles this under its own privacy policy. |
 | **Per-site counters**: for each domain on your list, how many times you walked away and how many times you went in | To show you your stats | `chrome.storage.local`, on this device only |
-| **Temporary unlocks**: which tab is allowed to open which listed domain, and until when | So you aren't asked again right after confirming | `chrome.storage.session`, in memory only, cleared when the browser closes or the tab is closed |
+| **Temporary unlocks**: which listed domain is unlocked, and until when | So you aren't asked again while the unlock lasts, in any tab | `chrome.storage.session`, in memory only, cleared when the browser closes |
 
 **Navigation events.** To know when you are opening a site on your list, the extension uses Chrome's `webNavigation` permission and compares each page's domain with your list, inside your browser. URLs of the sites you visit are **not** stored, logged or sent anywhere. Only the per-domain counters above are kept, and only for the domains you added yourself.
 
@@ -25,6 +25,8 @@ doureallyneedit is a Chrome extension that shows a short confirmation page befor
 
 - `storage`: to save your settings and counters, as described above.
 - `webNavigation`: to notice when you navigate to a domain on your list, so the confirmation page can be shown.
+- `tabs`: to find the open tabs of a domain when its unlock time is over, so they can be sent back to the confirmation page, and to show the minutes left on the extension icon in those tabs. Tab addresses are only compared with your list, inside your browser.
+- `alarms`: to be woken up when an unlock time is over.
 
 ## Your control
 

@@ -33,6 +33,8 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 .reason-box textarea { width: 100%; max-width: 640px; min-height: 72px; resize: vertical; font: inherit; }
 .hint { font-size: 13px; }
 
+.expired { margin: 0; }
+
 /* ---------- Options layout ---------- */
 .opts .content { max-width: 1160px; margin: 0 auto; padding: 48px 32px; display: flex; flex-direction: column; gap: 28px; }
 .opts-head { display: flex; align-items: center; gap: 16px; }
@@ -76,6 +78,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 .theme-breathe .reason-box label { font-size: 14px; color: #4A5C55; }
 .theme-breathe textarea, .theme-breathe .add-form input { border: 1.5px solid #C9D3CC; border-radius: 16px; background: #FFFFFF; color: #1E2B27; padding: 12px 16px; }
 .theme-breathe .add-form input { border-radius: 999px; }
+.theme-breathe .expired { padding: 8px 18px; border-radius: 999px; background: #E6ECE7; color: #2C4D3D; font-size: 15px; font-weight: 500; }
 .theme-breathe .qa.enter { animation: br-rise .9s cubic-bezier(.2,.7,.2,1) both; }
 
 .orb { position: relative; width: 220px; height: 220px; margin: 24px 0 20px; display: flex; align-items: center; justify-content: center; }
@@ -131,6 +134,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 .term-head .dim, .theme-terminal .qa p { color: #5FC97A; }
 .term-head .warn { color: #FFC857; }
 .term-head .bright { color: #7CFF9B; }
+.theme-terminal .expired { color: #FF6B6B; text-shadow: 0 0 6px rgba(255,107,107,.5); }
 .theme-terminal .qa h1 { font-size: clamp(26px, 3vw, 34px); font-weight: 700; line-height: 1.3; }
 .theme-terminal .qa h1::before { content: "> "; }
 .theme-terminal .qa p::before { content: "# "; }
@@ -192,6 +196,7 @@ button:disabled { cursor: not-allowed; opacity: .4; }
 .hud > div:last-child .hud-k { color: #3FE0FF; }
 .theme-arcade .gate .content { max-width: 1080px; align-items: center; text-align: center; gap: 28px; }
 .stage { font-size: 14px; color: #FFE14D; }
+.theme-arcade .expired { font-size: 28px; color: #FFE14D; text-shadow: 3px 3px 0 #7A5A00; animation: tm-blink 1s steps(1) 3; }
 .theme-arcade .qa { align-items: center; gap: 22px; text-transform: uppercase; }
 .theme-arcade .qa h1 { font-size: clamp(22px, 2.8vw, 34px); line-height: 1.5; color: #FF3FA4; text-shadow: 0 0 10px rgba(255,63,164,.8), 3px 3px 0 #5B1A78; }
 .theme-arcade .qa p { font-size: 14px; line-height: 1.8; color: #C9C3F2; }

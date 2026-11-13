@@ -27,8 +27,9 @@ You open a new tab, your hands type `you…`, and twenty minutes are gone.
 
 1. You navigate to a site on your list, for example `youtube.com`.
 2. A confirmation page appears instead, with a question picked at random from a pool of **30 prompts**.
-3. Answer **yes** enough times (you choose how many) and the site unlocks in that tab for a while.
-4. Answer **no** at any step and you're sent somewhere quieter. That counts as a win in your stats.
+3. Answer **yes** enough times (you choose how many) and the site unlocks for a while, in every tab. The extension icon shows the minutes left.
+4. When time is up, every open tab on that site goes back to the confirmation page, with a *time's up* note.
+5. Answer **no** at any step and you're sent somewhere quieter. That counts as a win in your stats.
 
 Optional extra friction: a short **"why?"** you have to type, and a **countdown** before the last *yes* becomes clickable.
 
@@ -72,7 +73,7 @@ Click the extension icon to open them. The settings page uses the same style you
 | **Style** | Breathe | Breathe, Terminal or Arcade. |
 | **Confirmations** | 2 | How many times you're asked (1–4). Each step gets a different question. |
 | **Final wait** | 5 s | Countdown before the last *yes* can be clicked (0–60 s). |
-| **Unlock for** | 15 min | How long the site stays open in that tab after you confirm. |
+| **Unlock for** | 15 min | How long the site stays open after you confirm, in all tabs. When it ends, open tabs on that site are locked again. |
 | **Ask for a reason** | On | On the second step, you have to type at least three words about why you need the site. |
 
 **Keyboard:** on the confirmation page, <kbd>y</kbd> means yes, <kbd>n</kbd> or <kbd>Esc</kbd> means no.
@@ -101,7 +102,7 @@ Then load the cloned folder with **Load unpacked**, as above.
 - **No network requests.** Fonts are bundled, and there are no analytics or remote calls.
 - **Your settings** sync between your own Chrome profiles with `chrome.storage.sync`.
 - **Your stats** (walked away / went in, per site) stay on this device in `chrome.storage.local`.
-- **Permissions:** only `storage` and `webNavigation`, which it needs to notice when you open a site on your list.
+- **Permissions:** `storage`, `webNavigation` (to notice when you open a site on your list), `tabs` (to find open tabs of a site when its time is up and to show the minutes left on the icon) and `alarms` (to know when time is up).
 
 Full details in the [privacy policy](PRIVACY.md).
 

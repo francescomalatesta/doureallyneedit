@@ -1,23 +1,27 @@
 const params = new URLSearchParams(location.search);
 const target = params.get("url");
 const domain = params.get("domain");
+const expired = params.get("expired") === "1";
 
 // Per-style copy
 const COPY = {
   breathe: {
     no: "No, never mind", yes: "Yes, I need it", last: "Yes, let me in",
     wait: (s) => `Wait ${s}s…`, reason: "In a few words, why?",
-    stats: (a, e) => `On ${domain}: you walked away ${a} times, went in ${e}.`
+    stats: (a, e) => `On ${domain}: you walked away ${a} times, went in ${e}.`,
+    expired: `Time's up. Your time on ${domain} is over.`
   },
   terminal: {
     no: "[ N ] no, never mind", yes: "[ y ] yes, I need it", last: "[ y ] yes, let me in",
     wait: (s) => `[ y ] wait ${s}s…`, reason: "$ reason --why",
-    stats: (a, e) => `stats: ${domain} · avoided=${a} · entered=${e}`
+    stats: (a, e) => `stats: ${domain} · avoided=${a} · entered=${e}`,
+    expired: `[doureallyneedit] session expired · ${domain} locked again`
   },
   arcade: {
     no: "B · NOPE", yes: "A · I NEED IT", last: "A · LET ME IN",
     wait: (s) => `A · WAIT ${s}`, reason: "STATE YOUR QUEST",
-    stats: () => ""
+    stats: () => "",
+    expired: "TIME OVER"
   }
 };
 
@@ -41,6 +45,10 @@ async function init() {
   $("termUrl").textContent = `open ${target}`;
   $("reasonLabel").textContent = copy.reason;
   $("no").textContent = copy.no;
+  if (expired) {
+    $("expired").textContent = copy.expired;
+    $("expired").hidden = false;
+  }
   if (settings.style === "arcade") makeStars($("stars"), 40);
 
   document.body.classList.add("ready");
@@ -117,9 +125,8 @@ async function onYes() {
   if (step < settings.confirmations) return render();
 
   $("yes").disabled = $("no").disabled = true;
-  const tab = await chrome.tabs.getCurrent();
-  const until = Date.now() + settings.allowMinutes * 60 * 1000;
-  await chrome.storage.session.set({ [`${tab.id}|${domain}`]: until });
+  // The background stores the unlock for the whole domain (every tab) and re-locks it when time is up.
+  await chrome.runtime.sendMessage({ type: "unlock", domain });
   await bump("entered");
   location.replace(target);
 }

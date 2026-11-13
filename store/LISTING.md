@@ -30,7 +30,8 @@ Most time lost online doesn't start with a decision. It starts with muscle memor
 WHAT IT DOES
 • You choose which sites to pause on (subdomains are included automatically).
 • When you open one of them, a calm confirmation page appears first, with a question picked at random from a pool of 30.
-• Confirm, and the site opens and stays unlocked in that tab for as long as you decide.
+• Confirm, and the site opens and stays unlocked for as long as you decide, in every tab. The extension icon shows the minutes left.
+• When time is up, every open tab on that site is locked again.
 • Say no at any step, and you're taken somewhere quieter. Every time you walk away is counted in your stats.
 
 AS GENTLE OR AS FIRM AS YOU WANT
@@ -81,13 +82,25 @@ Shows a confirmation page before the user opens websites they have added to a pe
 **Permission justification — `storage`:**
 
 ```
-Used to save the user's settings (list of domains, number of confirmations, wait time, unlock duration, visual style) with chrome.storage.sync, per-domain counters of how many times the user walked away or went in with chrome.storage.local, and short-lived per-tab unlocks with chrome.storage.session. No data leaves the browser.
+Used to save the user's settings (list of domains, number of confirmations, wait time, unlock duration, visual style) with chrome.storage.sync, per-domain counters of how many times the user walked away or went in with chrome.storage.local, and short-lived per-domain unlocks (domain and expiry time) with chrome.storage.session. No data leaves the browser.
 ```
 
 **Permission justification — `webNavigation`:**
 
 ```
 Used to detect when the user navigates (main frame only) to a domain on their personal list, so the extension can show its confirmation page before the site loads. The URL is compared with the list locally and is never stored, logged or transmitted.
+```
+
+**Permission justification — `tabs`:**
+
+```
+Used for two user-facing features. When the unlock time the user chose for a site is over, the extension finds the open tabs on that domain (chrome.tabs.query) and sends them back to its confirmation page. While a site is unlocked, it shows the minutes left as a badge on the extension icon in that site's tabs. Tab URLs are only compared with the user's list locally and are never stored, logged or transmitted.
+```
+
+**Permission justification — `alarms`:**
+
+```
+Used to schedule the end of an unlock (one alarm per unlocked domain, at the expiry time chosen by the user) so open tabs can be locked again on time, and to refresh the minutes-left badge once a minute while a site is unlocked.
 ```
 
 **Are you using remote code?** No, I am not using remote code.
@@ -113,10 +126,12 @@ https://github.com/francescomalatesta/doureallyneedit/blob/main/PRIVACY.md
 
 ```
 No account or setup needed.
-1. Install and then and open https://www.instagram.com (on the default list).
-2. A confirmation page appears instead. Click "Yes, I need it", type at least three words in the "why?" box and click "Yes, let me in": YouTube opens and stays unlocked in that tab for 15 minutes.
-3. Open Instagram in a new tab and click "No, never mind": you are taken to google.com.
-4. Click the extension icon to open the settings and edit them
+1. Install the extension. To see the re-lock without waiting 15 minutes, first click the extension icon to open the settings, set "Then unlock for" to 5 min and click Save.
+2. Open https://www.instagram.com (on the default list). A confirmation page appears instead. Click "Yes, I need it", type at least three words in the "why?" box and click "Yes, let me in": Instagram opens, and the extension icon shows the minutes left.
+3. Open Instagram in a second tab: it opens directly, without asking again.
+4. When the unlock time is over, both Instagram tabs go back to the confirmation page with a "Time's up" note.
+5. On that page click "No, never mind": you are taken to google.com.
+6. In the settings you can also add or remove sites and change confirmations, wait time, the "reason" step and the visual style.
 ```
 
 ---

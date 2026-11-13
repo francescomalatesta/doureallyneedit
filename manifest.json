@@ -1,11 +1,18 @@
 {
   "manifest_version": 3,
   "name": "doureallyneedit",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Pause before opening distracting sites: a short, mindful check asks if you really need them right now.",
   "homepage_url": "https://github.com/francescomalatesta/doureallyneedit",
-  "permissions": ["storage", "webNavigation"],
-  "background": { "service_worker": "background.js" },
+  "permissions": [
+    "storage",
+    "webNavigation",
+    "tabs",
+    "alarms"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "options_page": "options.html",
   "icons": {
     "16": "icons/icon-16.png",
