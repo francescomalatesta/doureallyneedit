@@ -113,10 +113,11 @@ https://github.com/francescomalatesta/doureallyneedit/blob/main/PRIVACY.md
 
 ```
 No account or setup needed.
-1. Install the extension and open https://www.youtube.com (on the default list).
+No account or setup needed.
+1. Install and then and open https://www.instagram.com (on the default list).
 2. A confirmation page appears instead. Click "Yes, I need it", type at least three words in the "why?" box and click "Yes, let me in": YouTube opens and stays unlocked in that tab for 15 minutes.
-3. Open YouTube in a new tab and click "No, never mind": you are taken to google.com.
-4. Click the extension icon to open the settings: add or remove sites, change the number of confirmations, the wait time, the unlock duration, the "reason" step and the visual style (Breathe, Terminal, Arcade), then click Save.
+3. Open Instagram in a new tab and click "No, never mind": you are taken to google.com.
+4. Click the extension icon to open the settings and edit them
 ```
 
 ---
