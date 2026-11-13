@@ -1,10 +1,23 @@
 {
   "manifest_version": 3,
   "name": "doureallyneedit",
-  "version": "1.1.0",
-  "description": "Asks whether you REALLY need to open certain websites before letting you in.",
+  "version": "1.2.0",
+  "description": "Pause before opening distracting sites: a short, mindful check asks if you really need them right now.",
+  "homepage_url": "https://github.com/francescomalatesta/doureallyneedit",
   "permissions": ["storage", "webNavigation"],
   "background": { "service_worker": "background.js" },
   "options_page": "options.html",
-  "action": { "default_title": "doureallyneedit – settings" }
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_title": "doureallyneedit – settings",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    }
+  }
 }

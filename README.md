@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="icons/icon-128.png" alt="" width="96">
+
 # doureallyneedit
 
 **A tiny Chrome extension that asks the one question your fingers never do:**
@@ -101,6 +103,8 @@ Then load the cloned folder with **Load unpacked**, as above.
 - **Your stats** (walked away / went in, per site) stay on this device in `chrome.storage.local`.
 - **Permissions:** only `storage` and `webNavigation`, which it needs to notice when you open a site on your list.
 
+Full details in the [privacy policy](PRIVACY.md).
+
 ## Under the hood
 
 ```
@@ -111,6 +115,8 @@ options.html/.js  the settings page
 common.js         defaults, question pool, shared helpers
 style.css         all three styles (Breathe, Terminal, Arcade)
 fonts/            bundled fonts + licenses
+icons/            extension icons
+store/            Chrome Web Store listing kit (texts, screenshots, promo tiles)
 ```
 
 A GitHub Action publishes a new release zip on every push to `main` that touches the extension. Changes to docs and Markdown files are ignored.
