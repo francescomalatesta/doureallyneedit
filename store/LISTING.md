@@ -22,38 +22,36 @@ The package to upload is the zip from the latest [GitHub release](https://github
 **Description:**
 
 ```
-You open a new tab, your fingers type a familiar address, and twenty minutes are gone.
+doureallyneedit shows a short confirmation page before you open the websites you visit out of habit, and asks one simple question: do you really need this right now?
 
-doureallyneedit puts a short, mindful pause in front of the sites you open on autopilot. It doesn't block anything. It just asks: do you really need this right now?
+WHY INSTALL IT
+Most time lost online doesn't start with a decision. It starts with muscle memory: a new tab, a few typed letters, and twenty minutes are gone. Blockers try to fix this by locking you out, and most people end up switching them off. doureallyneedit takes a gentler approach. It doesn't block anything. It turns an automatic click into a conscious choice. Sometimes the answer is yes, and that's fine. Often you'll find you didn't need it after all.
 
-HOW IT WORKS
-• Add the sites you want to think twice about (subdomains are included automatically).
-• When you open one, a calm confirmation page appears instead, with a question picked at random from a pool of 30.
-• Answer "yes" as many times as you've configured, and the site unlocks in that tab for a while.
-• Answer "no" at any step and you're taken somewhere quieter. That counts as a win in your stats.
+WHAT IT DOES
+• You choose which sites to pause on (subdomains are included automatically).
+• When you open one of them, a calm confirmation page appears first, with a question picked at random from a pool of 30.
+• Confirm, and the site opens and stays unlocked in that tab for as long as you decide.
+• Say no at any step, and you're taken somewhere quieter. Every time you walk away is counted in your stats.
 
-MAKE IT AS GENTLE OR AS FIRM AS YOU LIKE
-• 1 to 4 confirmation steps, each with a different question
+AS GENTLE OR AS FIRM AS YOU WANT
+• Ask once, or up to 4 times, with a different question each time
 • Optional countdown before the last "yes" becomes clickable
-• Optional "why?" step: type a few words about what you need to do there
+• Optional "why?" step: write a few words about what you need to do there
 • Choose how long a site stays unlocked after you confirm
-• Per-site stats: how many times you walked away vs. went in
+• See, for each site, how often you walked away and how often you went in
 
-THREE STYLES
-• Breathe (default): calm, with a breathing orb that grows and shrinks
-• Terminal: green phosphor screen, typed-out prompts and a blinking [y/N]
-• Arcade: twinkling stars, hi-scores and a CONTINUE? countdown
-
-KEYBOARD
-y = yes, n or Esc = no.
+THREE STYLES TO CHOOSE FROM
+• Breathe (default): calm and slow, with a breathing orb
+• Terminal: a green phosphor screen with a blinking [y/N] prompt
+• Arcade: a retro game screen with hi-scores and a CONTINUE? countdown
 
 PRIVATE BY DESIGN
-• No accounts, no analytics, no tracking, no ads.
-• No network requests: everything runs inside your browser, and fonts are bundled.
-• Settings sync between your own Chrome browsers via Chrome sync. Stats stay on this device.
+• No accounts, no analytics, no tracking, no ads
+• Nothing leaves your browser: no network requests, fonts included
+• Your settings sync across your own Chrome browsers; your stats stay on this device
 • Open source: https://github.com/francescomalatesta/doureallyneedit
 
-About the permissions: Chrome shows that the extension can "read your browsing history". This is because it needs the webNavigation permission to notice when you open a site on your list. URLs are compared with your list locally and are never stored or sent anywhere.
+A note on permissions: Chrome will say the extension can "read your browsing history". It needs this to notice when you open a site on your list. Addresses are checked against your list inside your browser and are never stored or sent anywhere.
 ```
 
 **Graphic assets** (all in this folder):
