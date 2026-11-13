@@ -14,7 +14,16 @@ When you navigate to a domain on your list, you land on an interstitial page tha
 - Per-domain stats: how many times you walked away vs. went in
 - No network requests, no tracking: everything stays in Chrome storage
 
-## Install (unpacked)
+## Quick install (from a release)
+
+1. Download the latest `doureallyneedit-*.zip` from the [Releases page](../../releases/latest)
+2. Unzip it
+3. Open `chrome://extensions` and enable **Developer mode**
+4. Click **Load unpacked** and select the extracted `doureallyneedit` folder
+
+A new release is published automatically on every push to `main` (changes to Markdown files only are ignored).
+
+## Install from source
 
 1. Clone this repo
 2. Open `chrome://extensions`
